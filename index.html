@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KoxBoxx.PL</title>
+    <meta name="description" content="Opis serwera SuperSerwer">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1>KoxBoxx.PL</h1>
+      <span>Dołącz do <span class="text-green" id="players">?</span> graczy!</span>
+      <div class="btns">
+        <a href="https://dc.koxboxx.pl" class="btn">Discord</a>
+        <a href="https://vishop.pl/shop/8231" class="btn">Sklep</a>
+      </div>
+    </div>
+
+    <footer>
+    </footer>
+  </body>
+</html>
+
+<script>
+const serverAddress = 'koxboxx.pl' // tutaj daj adres swojego serwera
+const players = document.getElementById("players");
+
+async function makeReq() {
+  const response = await fetch(`https://api.mcsrvstat.us/2/${serverAddress}`);
+  return await response.json()
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+  const jsonData = await makeReq()
+  console.log(jsonData.online)
+  if (!jsonData.online) {
+    players.textContent = 0
+    players.className = "text-red"
+    return
+  }
+  players.textContent = jsonData.players.online
+})
+</script>
